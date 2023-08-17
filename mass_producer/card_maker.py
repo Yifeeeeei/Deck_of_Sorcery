@@ -1028,6 +1028,8 @@ class CardMaker:
         base_image = self.draw_discription_and_quote(card_info, base_image)
         # 准备底部负载
         base_image = self.draw_gain(card_info, base_image)
+        # 准备威力或者持续
+        base_image = self.draw_power_or_duration(card_info, base_image)
         # 准备卡牌编号
         base_image = self.draw_number(card_info, base_image)
         return base_image
