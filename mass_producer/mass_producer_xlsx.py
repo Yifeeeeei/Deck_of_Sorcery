@@ -213,16 +213,20 @@ class MassProducerXlsx:
 
         if "生物" in self.mass_producer_params.keys():
             # 开始绘制生物牌
-            self.draw_cards("生物")
+            if self.mass_producer_params["生物"]["skip"] is False:
+                self.draw_cards("生物")
         if "技能" in self.mass_producer_params.keys():
             # 开始绘制技能牌
-            self.draw_cards("技能")
+            if self.mass_producer_params["技能"]["skip"] is False:
+                self.draw_cards("技能")
         if "道具" in self.mass_producer_params.keys():
             # 开始绘制道具牌
-            self.draw_cards("道具")
+            if self.mass_producer_params["道具"]["skip"] is False:
+                self.draw_cards("道具")
         if "英雄" in self.mass_producer_params.keys():
             # 开始绘制英雄牌
-            self.draw_cards("英雄")
+            if self.mass_producer_params["英雄"]["skip"] is False:
+                self.draw_cards("英雄")
         with open(
             os.path.join(self.mass_producer_params["output_path"], "error_log.txt"), "w"
         ) as f:
