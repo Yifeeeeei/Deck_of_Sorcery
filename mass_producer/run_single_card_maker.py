@@ -5,6 +5,10 @@ import os
 
 
 class SingleCardMaker:
+    def __init__(self) -> None:
+        self.all_elements = ["水", "火", "光", "暗", "气", "地", "?"]
+        self.blur_elements = ["水", "火", "光", "暗", "气", "地", "?", "无", "？"]
+
     def keyword_element_extraction(self, sentence):
         if "光" in sentence:
             return "光"
@@ -37,6 +41,13 @@ class SingleCardMaker:
         if "无" in sentence or "?" or "？" in sentence:
             return "无"
 
+    def blur_to_accurate(self, ele):
+        if ele == "无":
+            return "?"
+        if ele == "？":
+            return "?"
+        return ele
+
     def element_analysis(self, sentence):
         last_index = -1
         eles = Elements({})
@@ -53,7 +64,8 @@ class SingleCardMaker:
             card_info.number = str(int(df_row["编号"]))
         if "属性" in df_row.keys():
             card_info.category = self.blur_to_accurate(str(df_row["属性"]).strip())
-
+        if "类别" in df_row.keys():
+            card_info.type = str(df_row["类别"]).strip()
         if "名称" in df_row.keys():
             card_info.name = str(df_row["名称"])
         if "标签" in df_row.keys():
@@ -85,14 +97,25 @@ class SingleCardMaker:
         return card_info
 
     def make_single_card(self, param_dict):
-        card_maker = CardMaker(Config_default())
+        card_maker = CardMaker(Config_default(size_ratio=param_dict["尺寸"]))
         card_info = self.get_card_info_from_row(param_dict)
+        card_maker.config.size_ratio = param_dict["尺寸"]
         card_maker.config.drawing_path = param_dict["原图文件夹"]
         if card_info is None:
             print("invalid info")
             return
         card = card_maker.make_card(card_info)
-        card.save(os.path.join(param_dict["输出文件夹"]))
+        if param_dict["打印版"]:
+            card = card.convert("CMYK")
+        card.save(
+            os.path.join(
+                param_dict["输出文件夹"],
+                str(card_info.number) + "_" + card_info.name + ".jpg",
+            )
+        )
 
 
 param_dict = dict(json.load(open("single_card_maker_params.json", "r")))
+
+single_card_maker = SingleCardMaker()
+single_card_maker.make_single_card(param_dict)

@@ -1,23 +1,27 @@
 {
     "生物":{
-        "xlsx_paths":["sheets/new_全卡表-生物.xlsx"],
+        "xlsx_paths":["sheets/全卡表-生物.xlsx"],
         "drawing_paths":["牌面图片/生物"]
     },
     "技能":{
-        "xlsx_paths":["sheets/new_全卡表-技能.xlsx"],
+        "xlsx_paths":["sheets/全卡表-技能.xlsx"],
         "drawing_paths":["牌面图片/技能"]
     },
     "道具":{
-        "xlsx_paths":["sheets/new_全卡表-道具.xlsx"],
+        "xlsx_paths":["sheets/全卡表-道具.xlsx"],
         "drawing_paths":["牌面图片/道具"]
     },
     "英雄":{
         "xlsx_paths":[],
         "drawing_paths":[]
     },
+    "尺寸": 2,
+    "打印版": true,
     "overwrite":true,
     "mixedup_elements":true,
     "output_path":"output",
     "general_path":"resources/general",
     "font_path":"resources/fonts"
+
+    
 }

@@ -11,13 +11,15 @@ class Config:
 
 
 # default config
+# size_ratio大小(1,2,3,4,5...按照比例递增)
 class Config_default(Config):
-    def __init__(self):
+    def __init__(self, size_ratio=1):
         super().__init__()
         # 路径
-        self.general_path = os.path.join("resources", "gerneral")  # 通用素材
+        self.general_path = os.path.join("resources", "general")  # 通用素材
         self.drawing_path = "drawings"  # 卡牌原画
         self.font_path = os.path.join("resources", "fonts")  # 字体
+
         # 元素图片位置
         self.element_images = {
             "光": "ele_light",
@@ -38,133 +40,133 @@ class Config_default(Config):
             "?": "back_none",
         }
         # 卡片
-        self.card_width = 590
-        self.card_height = 860
+        self.card_width = int(590 * size_ratio)
+        self.card_height = int(860 * size_ratio)
         # 卡片原画
-        self.drawing_width = 540
-        self.drawing_height = 540  # 530 ok,
-        self.drawing_to_upper = 35
+        self.drawing_width = int(540 * size_ratio)
+        self.drawing_height = int(540 * size_ratio)  # 530 ok,
+        self.drawing_to_upper = int(35 * size_ratio)
         # 卡片边框
-        self.border_width = 580
-        self.border_height = 830
+        self.border_width = int(580 * size_ratio)
+        self.border_height = int(830 * size_ratio)
         self.type_border = {"生物": "border", "技能": "border4", "道具": "border3"}
         # 英雄牌
         self.reverse_color_for_hero = True
         # 底部的白色块
-        self.bottom_block_width = 540
-        self.bottom_block_height = 260
+        self.bottom_block_width = int(540 * size_ratio)
+        self.bottom_block_height = int(260 * size_ratio)
         self.bottom_block_color = (255, 255, 255)
         self.bottom_block_transparency = 150
-        self.bottom_block_legend_radius = 0
+        self.bottom_block_legend_radius = int(0 * size_ratio)
         # 左上元素+名称
-        self.name_font_size = 40
+        self.name_font_size = int(40 * size_ratio)
         self.name_font = "MaShanZheng-Regular.ttf"
-        self.name_rect_height = 60
-        self.name_rect_left = 60
-        self.name_rect_top = 10
-        self.name_rect_radius = 10
+        self.name_rect_height = int(60 * size_ratio)
+        self.name_rect_left = int(60 * size_ratio)
+        self.name_rect_top = int(10 * size_ratio)
+        self.name_rect_radius = int(10 * size_ratio)
         self.name_rect_fill = (255, 195, 0)
-        self.name_text_to_left = 90
+        self.name_text_to_left = int(90 * size_ratio)
         self.name_text_left_compensation = 5
         self.name_rect_outline_color = (255, 255, 255)
-        self.name_rect_outline_width = 3
+        self.name_rect_outline_width = int(3 * size_ratio)
         self.name_text_font_color = (0, 0, 0)
-        self.name_category_width = 80
-        self.name_category_left = 5
-        self.name_category_top = 5
+        self.name_category_width = int(80 * size_ratio)
+        self.name_category_left = int(5 * size_ratio)
+        self.name_category_top = int(5 * size_ratio)
         # 中央消耗
-        self.cost_font_size = 30
+        self.cost_font_size = int(30 * size_ratio)
         self.cost_font = "ShareTechMono-Regular.ttf"
-        self.cost_category_width = 30
+        self.cost_category_width = int(30 * size_ratio)
         self.cost_font_compensation = 2
         self.cost_font_color = (0, 0, 0)
-        self.cost_padding = 5
-        self.cost_rect_top = 530
-        self.cost_rect_left = 10
-        self.cost_rect_height = 50
-        self.cost_rect_radius = 25
+        self.cost_padding = int(5 * size_ratio)
+        self.cost_rect_top = int(530 * size_ratio)
+        self.cost_rect_left = int(10 * size_ratio)
+        self.cost_rect_height = int(50 * size_ratio)
+        self.cost_rect_radius = int(25 * size_ratio)
         self.cost_rect_fill = (255, 195, 0)
         self.cost_rect_outline_color = (255, 255, 255)
-        self.cost_rect_outline_width = 3
+        self.cost_rect_outline_width = int(3 * size_ratio)
         # 中央代价
-        self.expense_font_size = 30
+        self.expense_font_size = int(30 * size_ratio)
         self.expense_font = "ShareTechMono-Regular.ttf"
-        self.expense_category_width = 30
+        self.expense_category_width = int(30 * size_ratio)
         self.expense_font_compensation = 2
         self.expense_font_color = (0, 0, 0)
-        self.expense_padding = 5
-        self.expense_rect_top = 530
-        self.expense_rect_right = 580
-        self.expense_rect_height = 50
-        self.expense_rect_radius = 25
+        self.expense_padding = int(5 * size_ratio)
+        self.expense_rect_top = int(530 * size_ratio)
+        self.expense_rect_right = int(580 * size_ratio)
+        self.expense_rect_height = int(50 * size_ratio)
+        self.expense_rect_radius = int(25 * size_ratio)
         self.expense_rect_fill = (255, 195, 0)
         self.expense_rect_outline_color = (255, 255, 255)
-        self.expense_rect_outline_width = 3
+        self.expense_rect_outline_width = int(3 * size_ratio)
         # 标签
         self.tag_font = "FangZhengKaiTiJianTi-1.ttf"
-        self.tag_font_size = 24
+        self.tag_font_size = int(24 * size_ratio)
         self.tag_font_color = (0, 0, 0)
-        self.tag_text_left = 50
-        self.tag_text_to_block_top = 15
+        self.tag_text_left = int(50 * size_ratio)
+        self.tag_text_to_block_top = int(15 * size_ratio)
         # 卡牌描述
         self.discription_font = "FangZhengKaiTiJianTi-1.ttf"
-        self.discription_font_size = 24
+        self.discription_font_size = int(24 * size_ratio)
         self.discription_font_color = (0, 0, 0)
-        self.discription_text_left = 50
-        self.discription_text_to_block_top = 55
-        self.discription_line_spacing = 10
+        self.discription_text_left = int(50 * size_ratio)
+        self.discription_text_to_block_top = int(55 * size_ratio)
+        self.discription_line_spacing = int(10 * size_ratio)
         # 卡牌引言
         self.quote_font = "FangZhengKaiTiJianTi-1.ttf"
-        self.quote_font_size = 20
+        self.quote_font_size = int(20 * size_ratio)
         self.quote_font_color = (32, 32, 32)
-        self.quote_text_left = 100
-        self.quote_text_to_block_bottom = 40
-        self.quote_line_spacing = 5
+        self.quote_text_left = int(100 * size_ratio)
+        self.quote_text_to_block_bottom = int(40 * size_ratio)
+        self.quote_line_spacing = int(5 * size_ratio)
         # 底部负载
-        self.gain_font_size = 30
+        self.gain_font_size = int(30 * size_ratio)
         self.gain_font = "ShareTechMono-Regular.ttf"
-        self.gain_category_width = 30
+        self.gain_category_width = int(30 * size_ratio)
         self.gain_font_compensation = 1
         self.gain_font_color = (0, 0, 0)
-        self.gain_padding = 5
-        self.gain_rect_top = 800
-        self.gain_rect_right = 580
-        self.gain_rect_height = 50
-        self.gain_rect_radius = 25
+        self.gain_padding = int(5 * size_ratio)
+        self.gain_rect_top = int(800 * size_ratio)
+        self.gain_rect_right = int(580 * size_ratio)
+        self.gain_rect_height = int(50 * size_ratio)
+        self.gain_rect_radius = int(25 * size_ratio)
         self.gain_rect_fill = (255, 195, 0)
         self.gain_rect_outline_color = (255, 255, 255)
-        self.gain_rect_outline_width = 3
+        self.gain_rect_outline_width = int(3 * size_ratio)
         # 底部生命
-        self.life_font_size = 30
+        self.life_font_size = int(30 * size_ratio)
         self.life_font = "ShareTechMono-Regular.ttf"
-        self.life_icon_width = 30
+        self.life_icon_width = int(30 * size_ratio)
         self.life_font_compensation = 2
         self.life_font_color = (0, 0, 0)
-        self.life_padding = 5
-        self.life_rect_top = 800
-        self.life_rect_left = 10
-        self.life_rect_height = 50
-        self.life_rect_radius = 25
+        self.life_padding = int(5 * size_ratio)
+        self.life_rect_top = int(800 * size_ratio)
+        self.life_rect_left = int(10 * size_ratio)
+        self.life_rect_height = int(50 * size_ratio)
+        self.life_rect_radius = int(25 * size_ratio)
         self.life_rect_fill = (255, 195, 0)
         self.life_rect_outline_color = (255, 255, 255)
-        self.life_rect_outline_width = 3
+        self.life_rect_outline_width = int(3 * size_ratio)
         # 底部威力或持续时间
-        self.power_or_duration_font_size = 30
+        self.power_or_duration_font_size = int(30 * size_ratio)
         self.power_or_duration_font = "ShareTechMono-Regular.ttf"
-        self.power_or_duration_icon_width = 30
+        self.power_or_duration_icon_width = int(30 * size_ratio)
         self.power_or_duration_font_compensation = 2
         self.power_or_duration_font_color = (0, 0, 0)
-        self.power_or_duration_padding = 5
-        self.power_or_duration_rect_top = 800
-        self.power_or_duration_rect_right = 580
-        self.power_or_duration_rect_height = 50
-        self.power_or_duration_rect_radius = 25
+        self.power_or_duration_padding = int(5 * size_ratio)
+        self.power_or_duration_rect_top = int(800 * size_ratio)
+        self.power_or_duration_rect_right = int(580 * size_ratio)
+        self.power_or_duration_rect_height = int(50 * size_ratio)
+        self.power_or_duration_rect_radius = int(25 * size_ratio)
         self.power_or_duration_rect_fill = (255, 195, 0)
         self.power_or_duration_rect_outline_color = (255, 255, 255)
-        self.power_or_duration_rect_outline_width = 3
+        self.power_or_duration_rect_outline_width = int(3 * size_ratio)
         # 绘制卡牌编号
-        self.number_font_size = 20
+        self.number_font_size = int(20 * size_ratio)
         self.number_font_color = (0, 0, 0)
-        self.number_text_to_right = 50
-        self.number_text_to_block_top = 17
+        self.number_text_to_right = int(50 * size_ratio)
+        self.number_text_to_block_top = int(17 * size_ratio)
         self.number_font = "ShareTechMono-Regular.ttf"

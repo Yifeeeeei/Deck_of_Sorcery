@@ -8,11 +8,11 @@ from card_maker import CardMaker, CardInfo, Elements
 
 
 class MassProducerXlsx:
-    def __init__(self, card_maker_config: Config, mass_producer_params_path: str):
-        self.card_maker_config = card_maker_config
+    def __init__(self, mass_producer_params_path: str):
         self.mass_producer_params = dict(
             json.load(open(mass_producer_params_path, "r", encoding="utf-8"))
         )
+        self.card_maker_config = Config_default(self.mass_producer_params["尺寸"])
         self.card_maker_config.general_path = self.mass_producer_params["general_path"]
         self.card_maker_config.font_path = self.mass_producer_params["font_path"]
         self.all_elements = ["水", "火", "光", "暗", "气", "地", "?"]
@@ -85,6 +85,8 @@ class MassProducerXlsx:
                 if pd.isnull(df_row["属性"])
                 else self.blur_to_accurate(str(df_row["属性"]).strip())
             )
+        if "类别" in df_row.keys():
+            card_info.type = str(df_row["类别"]).strip()
         if "名称" in df_row.keys():
             card_info.name = "" if pd.isnull(df_row["名称"]) else str(df_row["名称"])
         if "标签" in df_row.keys():
@@ -180,8 +182,11 @@ class MassProducerXlsx:
                     card_info.type = card_type
 
                     try:
-                        card_image = card_maker.make_card(card_info).convert("RGB")
-
+                        card_image = None
+                        if self.mass_producer_params["打印版"] == False:
+                            card_image = card_maker.make_card(card_info).convert("RGB")
+                        else:
+                            card_image = card_maker.make_card(card_info).convert("CMYK")
                         card_image.save(
                             os.path.join(
                                 self.mass_producer_params["output_path"],
