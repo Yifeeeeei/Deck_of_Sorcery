@@ -107,6 +107,8 @@ class SingleCardMaker:
         card = card_maker.make_card(card_info)
         if param_dict["打印版"]:
             card = card.convert("CMYK")
+        else:
+            card = card.convert("RGB")
         card.save(
             os.path.join(
                 param_dict["输出文件夹"],
