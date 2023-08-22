@@ -20,7 +20,9 @@
         "drawing_paths":["牌面图片/英雄"]
     },
     "尺寸": 2,
-    "打印版": true,
+    "打印版": false,
+    "@排版":"游戏王or万智牌",
+    "排版":"游戏王",
     "overwrite":true,
     "mixedup_elements":true,
     "output_path":"output",

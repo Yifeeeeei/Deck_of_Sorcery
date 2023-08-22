@@ -3,7 +3,7 @@ from tqdm import tqdm
 import json
 import os
 
-from config import Config, Config_default
+from config import *
 from card_maker import CardMaker, CardInfo, Elements
 
 
@@ -12,7 +12,13 @@ class MassProducerXlsx:
         self.mass_producer_params = dict(
             json.load(open(mass_producer_params_path, "r", encoding="utf-8"))
         )
-        self.card_maker_config = Config_default(self.mass_producer_params["尺寸"])
+        config = None
+        if self.mass_producer_params["排版"] == "游戏王":
+            config = Config_YuGiOh(self.mass_producer_params["尺寸"])
+        if self.mass_producer_params["排版"] == "万智牌":
+            config = Config_Magic(self.mass_producer_params["尺寸"])
+
+        self.card_maker_config = config
         self.card_maker_config.general_path = self.mass_producer_params["general_path"]
         self.card_maker_config.font_path = self.mass_producer_params["font_path"]
         self.all_elements = ["水", "火", "光", "暗", "气", "地", "?"]

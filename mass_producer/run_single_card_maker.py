@@ -97,7 +97,12 @@ class SingleCardMaker:
         return card_info
 
     def make_single_card(self, param_dict):
-        card_maker = CardMaker(Config_default(size_ratio=param_dict["尺寸"]))
+        config = None
+        if param_dict["排版"] == "游戏王":
+            config = Config_YuGiOh(size_ratio=param_dict["尺寸"])
+        if param_dict["排版"] == "万智牌":
+            config = Config_Magic(size_ratio=param_dict["尺寸"])
+        card_maker = CardMaker(config)
         card_info = self.get_card_info_from_row(param_dict)
         card_maker.config.size_ratio = param_dict["尺寸"]
         card_maker.config.drawing_path = param_dict["原图文件夹"]
