@@ -51,6 +51,13 @@ class PackMaker:
             ), "card size not match"
         print("card size: ", "self.card_size")
         print("all card number: ", len(self.all_card_path_dict))
+        self.name_extension = (
+            "_"
+            + str(self.pack_maker_params["row_num"])
+            + "rows"
+            + str(self.pack_maker_params["col_num"])
+            + "cols"
+        )
 
     def make_all_cards_from_dir(self, source_dir: str, target_dir: str):
         if not os.path.exists(
@@ -104,7 +111,12 @@ class PackMaker:
                             os.path.join(
                                 self.pack_maker_params["all_cards_output_dir"],
                                 target_dir,
-                                target_dir + str(big_pic_counter) + ".jpg",
+                                target_dir
+                                + str(big_pic_counter)
+                                + self.name_extension
+                                + str(counter)
+                                + "total"
+                                + ".jpg",
                             )
                         )
 
@@ -125,7 +137,12 @@ class PackMaker:
                 os.path.join(
                     self.pack_maker_params["all_cards_output_dir"],
                     target_dir,
-                    target_dir + str(big_pic_counter) + ".jpg",
+                    target_dir
+                    + str(big_pic_counter)
+                    + self.name_extension
+                    + str(counter)
+                    + "total"
+                    + ".jpg",
                 )
             )
 
@@ -162,6 +179,75 @@ class PackMaker:
                 type_dir,
             )
 
+    def deck_analyze(self, card_nums):
+        type_count = {
+            "英雄": 0,
+            "生物": 0,
+            "道具": 0,
+            "技能": 0,
+            "衍生物": 0,
+            "主卡组": 0,
+            "技能卡组": 0,
+            "衍生卡组": 0,
+            "无": 0,
+            "火": 0,
+            "水": 0,
+            "气": 0,
+            "地": 0,
+            "光": 0,
+            "暗": 0,
+        }
+        valid = True
+        card_count = {}
+        for card_num in card_nums:
+            if card_num == "//":
+                continue
+
+            if card_num[0] == "4":
+                type_count["英雄"] += 1
+            elif card_num[0] == "1":
+                type_count["生物"] += 1
+            elif card_num[0] == "2":
+                type_count["道具"] += 1
+            elif card_num[0] == "3":
+                type_count["技能"] += 1
+
+            if card_num[1] == "0":
+                type_count["无"] += 1
+            elif card_num[1] == "1":
+                type_count["火"] += 1
+            elif card_num[1] == "2":
+                type_count["水"] += 1
+            elif card_num[1] == "3":
+                type_count["气"] += 1
+            elif card_num[1] == "4":
+                type_count["地"] += 1
+            elif card_num[1] == "5":
+                type_count["光"] += 1
+            elif card_num[1] == "6":
+                type_count["暗"] += 1
+
+            if card_num not in card_count.keys():
+                card_count[card_num] = 1
+            else:
+                card_count[card_num] += 1
+            if card_num[2] != "0" and card_count[card_num] > int(card_num[2]):
+                print("card_num: ", card_num, " excceed limit")
+                valid = False
+            if (card_num[0] == "1" or card_num[0] == "2") and card_num[2] != "0":
+                type_count["主卡组"] += 1
+            elif card_num[0] == "3" and card_num[2] != "0":
+                type_count["技能卡组"] += 1
+            elif card_num[2] == "0":
+                type_count["衍生卡组"] += 1
+        print("DECK COMPOSITION: ", type_count)
+        if type_count["主卡组"] != 30 or type_count["技能卡组"] != 12:
+            valid = False
+        if not valid:
+            print("DECK NOT VALID, please rebuild your deck")
+        else:
+            print("DECK VALID")
+
     def make_single_deck(self):
         if (
             os.path.exists(self.pack_maker_params["single_deck_output_dir"])
@@ -177,10 +263,13 @@ class PackMaker:
                 card_num = line.strip()
                 if card_num.startswith("#"):
                     continue
-                if card_num in self.all_card_path_dict.keys():
+                elif card_num.startswith("//"):
+                    single_deck_card_nums.append("//")
+                elif card_num in self.all_card_path_dict.keys():
                     single_deck_card_nums.append(card_num)
                 else:
                     print("card not found: ", card_num)
+        self.deck_analyze(single_deck_card_nums)
         deck_name = os.path.basename(self.pack_maker_params["deck_txt_path"]).split(
             "."
         )[-2]
@@ -201,6 +290,32 @@ class PackMaker:
         big_pic_counter = 0
 
         for card_num in tqdm(single_deck_card_nums):
+            if card_num == "//":
+                canvas.save(
+                    os.path.join(
+                        self.pack_maker_params["single_deck_output_dir"],
+                        deck_name
+                        + str(big_pic_counter)
+                        + self.name_extension
+                        + str(counter)
+                        + "total"
+                        + ".jpg",
+                    )
+                )
+
+                canvas = PIL.Image.new(
+                    "RGB",
+                    (
+                        self.pack_maker_params["col_num"] * self.card_size[0],
+                        self.pack_maker_params["row_num"] * self.card_size[1],
+                    ),
+                    (255, 255, 255),
+                )
+                big_pic_counter += 1
+                counter = 0
+                pin_x = 0
+                pin_y = 0
+                continue
             card_file = self.all_card_path_dict[card_num]
             if (
                 card_file.endswith(".jpg")
@@ -224,7 +339,12 @@ class PackMaker:
                     canvas.save(
                         os.path.join(
                             self.pack_maker_params["single_deck_output_dir"],
-                            deck_name + str(big_pic_counter) + ".jpg",
+                            deck_name
+                            + str(big_pic_counter)
+                            + self.name_extension
+                            + str(counter)
+                            + "total"
+                            + ".jpg",
                         )
                     )
 
@@ -245,7 +365,12 @@ class PackMaker:
             canvas.save(
                 os.path.join(
                     self.pack_maker_params["single_deck_output_dir"],
-                    deck_name + str(big_pic_counter) + ".jpg",
+                    deck_name
+                    + str(big_pic_counter)
+                    + self.name_extension
+                    + str(counter)
+                    + "total"
+                    + ".jpg",
                 )
             )
 
