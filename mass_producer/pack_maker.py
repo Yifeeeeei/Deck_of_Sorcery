@@ -261,6 +261,8 @@ class PackMaker:
         with open(self.pack_maker_params["deck_txt_path"], "r") as f:
             for line in f.readlines():
                 card_num = line.strip()
+                if card_num == "":
+                    continue
                 if card_num.startswith("#"):
                     continue
                 elif card_num.startswith("//"):
