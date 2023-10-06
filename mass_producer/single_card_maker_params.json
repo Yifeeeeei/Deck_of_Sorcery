@@ -18,6 +18,6 @@
     "打印版": false,
     "@排版": "游戏王or万智牌",
     "排版": "游戏王",
-    "use_former_version": true,
+    "use_former_version": false,
     "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要自动重新加载旧版文件，请将此项设置为true，否则设置为false"
 }

@@ -28,6 +28,6 @@
     "output_path": "output",
     "general_path": "resources/general",
     "font_path": "resources/fonts",
-    "use_former_version": true,
+    "use_former_version": false,
     "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要重拾旧版文件，请将此项设置为true"
 }

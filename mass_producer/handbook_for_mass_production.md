@@ -130,7 +130,7 @@ python -u run_pack_maker.py
 在git pull之后，新的空白json文件会覆盖原本已经配置好的json文件，现在这一问题通过JsonVersionController类解决（./json_version_control.py）。在所有json文件中，添加了两项参数
 
 ```json
-"use_former_version": true,
+"use_former_version": false,
 "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要重拾旧版文件，请将此项设置为true"
 ```
 

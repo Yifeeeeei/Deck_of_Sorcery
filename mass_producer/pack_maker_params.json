@@ -20,6 +20,6 @@
     "deck_txt_path": "./卡组/earth.txt",
     "@deck_txt_path": "卡组文件的路径，每一行是一张卡牌的路径，如果是相对路径，则是相对于cards_dir的路径，txt每一行为一个卡牌号",
     "single_deck_output_dir": "./deck",
-    "use_former_version": true,
+    "use_former_version": false,
     "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要自动重新加载旧版文件，请将此项设置为true，否则设置为false"
 }
