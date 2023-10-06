@@ -2,6 +2,7 @@ from config import *
 from card_maker import CardMaker, Elements, CardInfo
 import json
 import os
+from json_version_control import JsonVersionController
 
 
 class SingleCardMaker:
@@ -122,7 +123,8 @@ class SingleCardMaker:
         )
 
 
-param_dict = dict(json.load(open("single_card_maker_params.json", "r")))
+json_version_controller = JsonVersionController("single_card_maker_params.json")
+param_dict = dict(json_version_controller.get_json())
 
 single_card_maker = SingleCardMaker()
 single_card_maker.make_single_card(param_dict)

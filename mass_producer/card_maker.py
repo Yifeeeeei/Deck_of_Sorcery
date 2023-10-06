@@ -1064,5 +1064,5 @@ class CardMaker:
             result = self.make_item_card(card_info)
             return result
         elif card_info.type == "英雄":
-            result = self.make_item_card(card_info)
+            result = self.make_hero_card(card_info)
             return result

@@ -2,13 +2,13 @@ import PIL.Image
 import json
 import os
 from tqdm import tqdm
+from json_version_control import JsonVersionController
 
 
 class PackMaker:
     def __init__(self, pack_maker_params_path: str):
-        self.pack_maker_params = dict(
-            json.load(open(pack_maker_params_path, "r", encoding="utf-8"))
-        )
+        json_verson_controller = JsonVersionController(pack_maker_params_path)
+        self.pack_maker_params = dict(json_verson_controller.get_json())
         self.all_card_path_dict = {}
 
         for type_dir in os.listdir(self.pack_maker_params["all_cards_dir"]):

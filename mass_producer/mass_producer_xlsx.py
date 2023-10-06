@@ -5,13 +5,14 @@ import os
 
 from config import *
 from card_maker import CardMaker, CardInfo, Elements
+from json_version_control import JsonVersionController
 
 
 class MassProducerXlsx:
     def __init__(self, mass_producer_params_path: str):
-        self.mass_producer_params = dict(
-            json.load(open(mass_producer_params_path, "r", encoding="utf-8"))
-        )
+        json_verson_controller = JsonVersionController(mass_producer_params_path)
+
+        self.mass_producer_params = dict(json_verson_controller.get_json())
         config = None
         if self.mass_producer_params["排版"] == "游戏王":
             config = Config_YuGiOh(self.mass_producer_params["尺寸"])
