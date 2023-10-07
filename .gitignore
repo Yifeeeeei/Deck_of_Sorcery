@@ -4,3 +4,5 @@
 **/._.DS_Store
 back_up
 */*.json
+*/*.pyc
+*/*/*.pyc

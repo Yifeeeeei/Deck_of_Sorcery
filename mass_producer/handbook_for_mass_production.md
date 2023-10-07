@@ -1,10 +1,18 @@
 # 如何使用
 
-## 1 安装依赖
+## 1 安装依赖并生成配置文件
 
 ```bash
 pip install -r requirements.txt
 ```
+
+克隆仓库以后，仓库中并没有相应的配置文件，进入mass_producer文件夹并使用命令
+
+```bash
+python generate_default_jsons.py
+```
+
+来生成相关的配置文件
 
 
 
@@ -125,20 +133,6 @@ python -u run_pack_maker.py
 
 ## 7 版本控制
 
-现在已经加入自动化版本控制
+现在已经将各种json文件移出了git版本控制，来确保它不会被覆盖
 
-在git pull之后，新的空白json文件会覆盖原本已经配置好的json文件，现在这一问题通过JsonVersionController类解决（./json_version_control.py）。在所有json文件中，添加了两项参数
-
-```json
-"use_former_version": false,
-"@use_former_version": "在git pull之后，本文件会被覆盖，如果需要重拾旧版文件，请将此项设置为true"
-```
-
-如果use_former_version为true，代码将会自动取回上次运行时的json文件并覆盖新的文件，并将新的文件进行保存，所有json文件保存在back_up文件夹中，back_up文件夹不会上传到github仓库中
-
-如果需要手动找回上一版本json，运行
-
-```bash
-python recover_former_jsons.py
-```
 
