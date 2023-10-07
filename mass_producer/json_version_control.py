@@ -6,6 +6,7 @@ import shutil
 class JsonVersionController:
     def __init__(self, new_json_path):
         self.new_json_path = new_json_path
+        return
         self.old_json_path = None
         self.get_old_json_path()
         new_json_dict = dict(self.get_json())
