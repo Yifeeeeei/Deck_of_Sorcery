@@ -150,6 +150,20 @@ class Config_YuGiOh(Config):
         self.life_rect_fill = (255, 195, 0)
         self.life_rect_outline_color = (255, 255, 255)
         self.life_rect_outline_width = int(3 * size_ratio)
+        # 底部攻击
+        self.attack_font_size = int(30 * size_ratio)
+        self.attack_font = "ShareTechMono-Regular.ttf"
+        self.attack_icon_width = int(30 * size_ratio)
+        self.attack_font_compensation = 2
+        self.attack_font_color = (0, 0, 0)
+        self.attack_padding = int(5 * size_ratio)
+        self.attack_rect_top = int(800 * size_ratio)
+        # self.life_rect_left = ??? we will calculate this in the process
+        self.attack_rect_height = int(50 * size_ratio)
+        self.attack_rect_radius = int(25 * size_ratio)
+        self.attack_rect_fill = (255, 195, 0)
+        self.attack_rect_outline_color = (255, 255, 255)
+        self.attack_rect_outline_width = int(3 * size_ratio)
         # 底部威力或持续时间
         self.power_or_duration_font_size = int(30 * size_ratio)
         self.power_or_duration_font = "ShareTechMono-Regular.ttf"
@@ -296,6 +310,20 @@ class Config_Magic(Config):
         self.gain_rect_fill = (255, 195, 0)
         self.gain_rect_outline_color = (255, 255, 255)
         self.gain_rect_outline_width = int(3 * size_ratio)
+        # 中央代价
+        self.expense_font_size = int(30 * size_ratio)
+        self.expense_font = "ShareTechMono-Regular.ttf"
+        self.expense_category_width = int(30 * size_ratio)
+        self.expense_font_compensation = 2
+        self.expense_font_color = (0, 0, 0)
+        self.expense_padding = int(5 * size_ratio)
+        self.expense_rect_top = int(530 * size_ratio)
+        self.expense_rect_right = int(580 * size_ratio)
+        self.expense_rect_height = int(50 * size_ratio)
+        self.expense_rect_radius = int(25 * size_ratio)
+        self.expense_rect_fill = (255, 195, 0)
+        self.expense_rect_outline_color = (255, 255, 255)
+        self.expense_rect_outline_width = int(3 * size_ratio)
         # 底部生命
         self.life_font_size = int(30 * size_ratio)
         self.life_font = "ShareTechMono-Regular.ttf"
@@ -310,6 +338,20 @@ class Config_Magic(Config):
         self.life_rect_fill = (255, 195, 0)
         self.life_rect_outline_color = (255, 255, 255)
         self.life_rect_outline_width = int(3 * size_ratio)
+        # 底部攻击
+        self.attack_font_size = int(30 * size_ratio)
+        self.attack_font = "ShareTechMono-Regular.ttf"
+        self.attack_icon_width = int(30 * size_ratio)
+        self.attack_font_compensation = 2
+        self.attack_font_color = (0, 0, 0)
+        self.attack_padding = int(5 * size_ratio)
+        self.attack_rect_top = int(800 * size_ratio)
+        # self.life_rect_left = ??? we will calculate this in the process
+        self.attack_rect_height = int(50 * size_ratio)
+        self.attack_rect_radius = int(25 * size_ratio)
+        self.attack_rect_fill = (255, 195, 0)
+        self.attack_rect_outline_color = (255, 255, 255)
+        self.attack_rect_outline_width = int(3 * size_ratio)
         # 底部威力或持续时间
         self.power_or_duration_font_size = int(30 * size_ratio)
         self.power_or_duration_font = "ShareTechMono-Regular.ttf"

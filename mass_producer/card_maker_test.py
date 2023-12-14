@@ -3,7 +3,7 @@ import PIL.ImageDraw
 import PIL.ImageFont
 import textwrap
 from card_maker import *
-from config import Config_default
+from config import Config_YuGiOh
 
 # # Load the base image
 # base_image = PIL.Image.open(
@@ -59,15 +59,15 @@ from config import Config_default
 # base_image.save("final.png")
 
 
-config = Config_default()
+config = Config_YuGiOh()
 config.general_path = "resources/general"
-config.drawing_path = "drawings"
+config.drawing_path = "."
 cm = CardMaker(config)
 
 ci = CardInfo()
 
 ci.category = "火"
-ci.number = str(114514)
+ci.number = str(152011)
 ci.type = "生物"
 # ci.duration = 4
 ci.name = "田所浩二"
@@ -86,9 +86,10 @@ ci.elements_gain["光"] = 1
 ci.elements_gain["暗"] = 9
 ci.elements_gain["水"] = 8
 ci.elements_gain["气"] = 10
+ci.attack = 10
 
 
-ci.life = 1
+ci.life = 0
 ci.version = "1.0.0"
 ci.quote = "(首)"
 card_image = cm.make_card(ci).convert("RGB")

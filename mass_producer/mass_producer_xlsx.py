@@ -128,6 +128,8 @@ class MassProducerXlsx:
                 if pd.isnull(df_row["代价"])
                 else self.element_analysis(df_row["代价"])
             )
+        if "攻击" in df_row.keys():
+            card_info.attack = int(0 if pd.isnull(df_row["攻击"]) else df_row["攻击"])
         if "版本" in df_row.keys():
             card_info.version = "" if pd.isnull(df_row["版本"]) else str(df_row["版本"])
         if card_info.number == "" or card_info.name == "" or card_info.category == "":

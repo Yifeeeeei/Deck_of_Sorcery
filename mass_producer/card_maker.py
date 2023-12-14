@@ -55,6 +55,8 @@ class CardInfo:
         self.quote = ""  # 一段帅气的文字引用
         self.elements_cost = Elements({})  # 左上角元素消耗
         self.elements_gain = Elements({})  # 右下角元素负载
+        self.attack = 0  # 底部攻击力
+
         # 以下是生物卡的独有属性
 
         self.life = 0  # 生命值
@@ -717,63 +719,137 @@ class CardMaker:
 
         return base_image
 
+    def get_attack_image(self):
+        return self.get_image_without_extension(
+            os.path.join(self.config.general_path, "attack")
+        )
+
     def get_life_image(self):
         return self.get_image_without_extension(
             os.path.join(self.config.general_path, "life")
         )
 
-    def draw_life(self, card_info: CardInfo, base_image: PIL.Image):
+    def draw_life_and_attack(self, card_info: CardInfo, base_image: PIL.Image):
+        left_pointer = 0
         if card_info.life == 0:
-            return base_image
-        life_image = self.get_life_image()
-        life_image = self.adjust_image(
-            life_image, (self.config.life_icon_width, self.config.life_icon_width)
-        )
-        font = PIL.ImageFont.truetype(
-            os.path.join(self.config.font_path, self.config.life_font),
-            self.config.life_font_size,
-        )
-        estimated_length = (
-            font.getsize(str(card_info.life))[0]
-            + self.config.life_padding * 3
-            + self.config.life_icon_width
-        )
-        left = self.config.life_rect_left
-        top = self.config.life_rect_top
-        right = left + estimated_length
-        bottom = top + self.config.life_rect_height
-        base_image = self.draw_round_corner_rectangle(
-            base_image,
-            (left, top, right, bottom),
-            self.config.life_rect_radius,
-            self.config.life_rect_fill,
-            self.config.life_rect_outline_color,
-            self.config.life_rect_outline_width,
-        )
+            pass
+        else:
+            life_image = self.get_life_image()
+            life_image = self.adjust_image(
+                life_image, (self.config.life_icon_width, self.config.life_icon_width)
+            )
+            font = PIL.ImageFont.truetype(
+                os.path.join(self.config.font_path, self.config.life_font),
+                self.config.life_font_size,
+            )
+            estimated_length = (
+                font.getsize(str(card_info.life))[0]
+                + self.config.life_padding * 3
+                + self.config.life_icon_width
+            )
+            left = self.config.life_rect_left
+            top = self.config.life_rect_top
+            right = left + estimated_length
+            bottom = top + self.config.life_rect_height
+            base_image = self.draw_round_corner_rectangle(
+                base_image,
+                (left, top, right, bottom),
+                self.config.life_rect_radius,
+                self.config.life_rect_fill,
+                self.config.life_rect_outline_color,
+                self.config.life_rect_outline_width,
+            )
 
-        left_pointer = left + self.config.life_padding
-        life_top = int(
-            self.config.life_rect_top
-            + (self.config.life_rect_height - self.config.life_icon_width) / 2
-        )
-        base_image.paste(
-            life_image,
-            (left_pointer, life_top),
-            mask=life_image,
-        )
-        left_pointer += self.config.life_icon_width + self.config.life_padding
-        life_text_top = int(
-            self.config.life_rect_top
-            + (self.config.life_rect_height - font.getsize(str(card_info.life))[1]) / 2
-            - self.config.life_font_compensation
-        )
-        base_image = self.add_text_on_image(
-            base_image,
-            str(card_info.life),
-            (left_pointer, life_text_top),
-            font,
-            self.config.life_font_color,
-        )
+            left_pointer = left + self.config.life_padding
+            life_top = int(
+                self.config.life_rect_top
+                + (self.config.life_rect_height - self.config.life_icon_width) / 2
+            )
+            base_image.paste(
+                life_image,
+                (left_pointer, life_top),
+                mask=life_image,
+            )
+            left_pointer += self.config.life_icon_width + self.config.life_padding
+            life_text_top = int(
+                self.config.life_rect_top
+                + (self.config.life_rect_height - font.getsize(str(card_info.life))[1])
+                / 2
+                - self.config.life_font_compensation
+            )
+            base_image = self.add_text_on_image(
+                base_image,
+                str(card_info.life),
+                (left_pointer, life_text_top),
+                font,
+                self.config.life_font_color,
+            )
+            # return base_image
+
+        if card_info.attack == 0:
+            pass
+        else:
+            attack_image = self.get_attack_image()
+            attack_image = self.adjust_image(
+                attack_image,
+                (self.config.attack_icon_width, self.config.attack_icon_width),
+            )
+            font = PIL.ImageFont.truetype(
+                os.path.join(self.config.font_path, self.config.attack_font),
+                self.config.attack_font_size,
+            )
+            estimated_length = (
+                font.getsize(str(card_info.attack))[0]
+                + self.config.attack_padding * 3
+                + self.config.attack_icon_width
+            )
+            # adjust left pointer
+            if card_info.life == 0:
+                left_pointer = self.config.life_rect_left
+            else:
+                left_pointer += (
+                    self.config.life_rect_left + 3 * self.config.life_padding
+                )
+
+            left = left_pointer
+            top = self.config.attack_rect_top
+            right = left + estimated_length
+            bottom = top + self.config.attack_rect_height
+            base_image = self.draw_round_corner_rectangle(
+                base_image,
+                (left, top, right, bottom),
+                self.config.attack_rect_radius,
+                self.config.attack_rect_fill,
+                self.config.attack_rect_outline_color,
+                self.config.attack_rect_outline_width,
+            )
+            left_pointer = left + self.config.attack_padding
+            attack_top = int(
+                self.config.attack_rect_top
+                + (self.config.attack_rect_height - self.config.attack_icon_width) / 2
+            )
+            base_image.paste(
+                attack_image,
+                (left_pointer, attack_top),
+                mask=attack_image,
+            )
+            left_pointer += self.config.attack_icon_width + self.config.attack_padding
+            attack_text_top = int(
+                self.config.attack_rect_top
+                + (
+                    self.config.attack_rect_height
+                    - font.getsize(str(card_info.attack))[1]
+                )
+                / 2
+                - self.config.attack_font_compensation
+            )
+            base_image = self.add_text_on_image(
+                base_image,
+                str(card_info.attack),
+                (left_pointer, attack_text_top),
+                font,
+                self.config.attack_font_color,
+            )
         return base_image
 
     def get_power_image(self):
@@ -990,10 +1066,11 @@ class CardMaker:
         base_image = self.draw_discription_and_quote(card_info, base_image)
         # 准备底部负载
         base_image = self.draw_gain(card_info, base_image)
-        # 准备生命
-        base_image = self.draw_life(card_info, base_image)
+        # 绘制生命和攻击
+        base_image = self.draw_life_and_attack(card_info, base_image)
         # 准备卡牌编号
         base_image = self.draw_number(card_info, base_image)
+
         return base_image
 
     def make_ability_card(self, card_info: CardInfo):
@@ -1032,6 +1109,8 @@ class CardMaker:
         base_image = self.draw_power_or_duration(card_info, base_image)
         # 准备卡牌编号
         base_image = self.draw_number(card_info, base_image)
+        # 绘制生命和攻击
+        base_image = self.draw_life_and_attack(card_info, base_image)
         return base_image
 
     def make_hero_card(self, card_info: CardInfo):
@@ -1048,7 +1127,7 @@ class CardMaker:
         # 准备底部负载
         base_image = self.draw_gain(card_info, base_image)
         # 准备生命
-        base_image = self.draw_life(card_info, base_image)
+        base_image = self.draw_life_and_attack(card_info, base_image)
         # 准备卡牌编号
         base_image = self.draw_number(card_info, base_image)
         return base_image
