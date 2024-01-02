@@ -258,7 +258,7 @@ class PackMaker:
         if not os.path.exists(self.pack_maker_params["single_deck_output_dir"]):
             os.makedirs(self.pack_maker_params["single_deck_output_dir"])
         single_deck_card_nums = []
-        with open(self.pack_maker_params["deck_txt_path"], "r") as f:
+        with open(self.pack_maker_params["deck_txt_path"], "r", encoding="utf-8") as f:
             for line in f.readlines():
                 card_num = line.strip()
                 if card_num == "":
