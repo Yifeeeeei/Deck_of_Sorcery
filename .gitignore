@@ -3,7 +3,6 @@
 **/.DS_Store
 **/._.DS_Store
 back_up
-*/*.json
 */*.pyc
 */*/*.pyc
 __pycache__
