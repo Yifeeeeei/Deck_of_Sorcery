@@ -293,17 +293,18 @@ class PackMaker:
 
         for card_num in tqdm(single_deck_card_nums):
             if card_num == "//":
-                canvas.save(
-                    os.path.join(
-                        self.pack_maker_params["single_deck_output_dir"],
-                        deck_name
-                        + str(big_pic_counter)
-                        + self.name_extension
-                        + str(counter)
-                        + "total"
-                        + ".jpg",
+                if counter != 0:
+                    canvas.save(
+                        os.path.join(
+                            self.pack_maker_params["single_deck_output_dir"],
+                            deck_name
+                            + str(big_pic_counter)
+                            + self.name_extension
+                            + str(counter)
+                            + "total"
+                            + ".jpg",
+                        )
                     )
-                )
 
                 canvas = PIL.Image.new(
                     "RGB",
