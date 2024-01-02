@@ -99,7 +99,7 @@ class MassProducerXlsx:
         if "标签" in df_row.keys():
             card_info.tag = "" if pd.isnull(df_row["标签"]) else str(df_row["标签"])
         if "生命" in df_row.keys():
-            card_info.life = int(-1 if pd.isnull(df_row["生命"]) else df_row["生命"])
+            card_info.life = int(0 if pd.isnull(df_row["生命"]) else df_row["生命"])
         if "条件" in df_row.keys():
             card_info.elements_cost = (
                 Elements({})
@@ -119,9 +119,9 @@ class MassProducerXlsx:
         if "引言" in df_row.keys():
             card_info.quote = "" if pd.isnull(df_row["引言"]) else str(df_row["引言"])
         if "威力" in df_row.keys():
-            card_info.power = int(-1 if pd.isnull(df_row["威力"]) else df_row["威力"])
+            card_info.power = int(0 if pd.isnull(df_row["威力"]) else df_row["威力"])
         if "时间" in df_row.keys():
-            card_info.duration = int(-1 if pd.isnull(df_row["时间"]) else df_row["时间"])
+            card_info.duration = int(0 if pd.isnull(df_row["时间"]) else df_row["时间"])
         if "代价" in df_row.keys():
             card_info.elements_expense = (
                 Elements({})
@@ -129,7 +129,7 @@ class MassProducerXlsx:
                 else self.element_analysis(df_row["代价"])
             )
         if "攻击" in df_row.keys():
-            card_info.attack = int(-1 if pd.isnull(df_row["攻击"]) else df_row["攻击"])
+            card_info.attack = int(0 if pd.isnull(df_row["攻击"]) else df_row["攻击"])
         if "版本" in df_row.keys():
             card_info.version = "" if pd.isnull(df_row["版本"]) else str(df_row["版本"])
         if card_info.number == "" or card_info.name == "" or card_info.category == "":
@@ -196,11 +196,9 @@ class MassProducerXlsx:
                             card_image = card_maker.make_card(card_info).convert("RGB")
                         else:
                             card_image = card_maker.make_card(card_info).convert("CMYK")
-
-                        output_path = self.get_output_path(card_type)
                         card_image.save(
                             os.path.join(
-                                output_path,
+                                self.mass_producer_params["output_path"],
                                 card_type,
                                 self.dir_ele_translator(card_info.category),
                                 str(card_info.number) + "_" + card_info.name + ".jpg",
@@ -212,25 +210,6 @@ class MassProducerXlsx:
                             "Error encountered when drawing card: ", card_info.name, e
                         )
                         self.error_log.append(str(card_info) + " " + str(e))
-
-    def get_output_path(self, card_type):
-        if card_type == "生物":
-            if not os.path.exists(self.mass_producer_params["unit_output_path"]):
-                os.makedirs(self.mass_producer_params["unit_output_path"])
-            return self.mass_producer_params["unit_output_path"]
-        if card_type == "技能":
-            if not os.path.exists(self.mass_producer_params["ability_output_path"]):
-                os.makedirs(self.mass_producer_params["ability_output_path"])
-            return self.mass_producer_params["ability_output_path"]
-        if card_type == "道具":
-            if not os.path.exists(self.mass_producer_params["item_output_path"]):
-                os.makedirs(self.mass_producer_params["item_output_path"])
-            return self.mass_producer_params["item_output_path"]
-        if card_type == "英雄":
-            if not os.path.exists(self.mass_producer_params["hero_output_path"]):
-                os.makedirs(self.mass_producer_params["hero_output_path"])
-            return self.mass_producer_params["hero_output_path"]
-        raise ValueError("卡牌类型错误")
 
     def produce(self):
         # 检查输出路径
