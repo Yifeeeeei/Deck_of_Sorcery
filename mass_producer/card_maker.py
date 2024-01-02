@@ -55,17 +55,17 @@ class CardInfo:
         self.quote = ""  # 一段帅气的文字引用
         self.elements_cost = Elements({})  # 左上角元素消耗
         self.elements_gain = Elements({})  # 右下角元素负载
-        self.attack = 0  # 底部攻击力
+        self.attack = -1  # 底部攻击力
 
         # 以下是生物卡的独有属性
 
-        self.life = 0  # 生命值
+        self.life = -1  # 生命值
 
         self.version = ""  # 版本号
 
         # 以下是技能卡的独有属性
-        self.duration = 0  # 冷却回合数
-        self.power = 0  # 威力
+        self.duration = -1  # 冷却回合数
+        self.power = -1  # 威力
         self.elements_expense = Elements({})  # 代价（为彩笔？）
 
         # 以下是道具卡的独有属性
@@ -731,7 +731,7 @@ class CardMaker:
 
     def draw_life_and_attack(self, card_info: CardInfo, base_image: PIL.Image):
         left_pointer = 0
-        if card_info.life == 0:
+        if card_info.life < 0:
             pass
         else:
             life_image = self.get_life_image()
@@ -786,7 +786,7 @@ class CardMaker:
             )
             # return base_image
 
-        if card_info.attack == 0:
+        if card_info.attack < 0:
             pass
         else:
             attack_image = self.get_attack_image()
@@ -865,9 +865,9 @@ class CardMaker:
     def draw_power_or_duration(self, card_info: CardInfo, base_image: PIL.Image):
         image = None
         text = ""
-        if card_info.duration == 0 and card_info.power == 0:
+        if card_info.duration < 0 and card_info.power < 0:
             return base_image
-        if card_info.duration > 0:
+        if card_info.duration >= 0:
             image = self.get_duration_image()
             text = str(card_info.duration)
         else:
