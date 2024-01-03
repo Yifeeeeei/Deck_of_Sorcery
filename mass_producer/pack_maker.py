@@ -85,6 +85,15 @@ class PackMaker:
             if not os.path.isdir(os.path.join(source_dir, ele_dir)):
                 continue
             print("processing: ", source_dir, ele_dir)
+            output_dir = (
+                os.path.join(self.pack_maker_params["all_cards_output_dir"], target_dir)
+                if self.pack_maker_params["mixedup_elements"]
+                else os.path.join(
+                    self.pack_maker_params["all_cards_output_dir"], target_dir, ele_dir
+                )
+            )
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
             for card_file in tqdm(os.listdir(os.path.join(source_dir, ele_dir))):
                 if (
                     card_file.endswith(".jpg")
@@ -109,8 +118,7 @@ class PackMaker:
                     if counter >= counter_max:
                         canvas.save(
                             os.path.join(
-                                self.pack_maker_params["all_cards_output_dir"],
-                                target_dir,
+                                output_dir,
                                 target_dir
                                 + str(big_pic_counter)
                                 + self.name_extension
@@ -135,8 +143,7 @@ class PackMaker:
         if counter != 0:
             canvas.save(
                 os.path.join(
-                    self.pack_maker_params["all_cards_output_dir"],
-                    target_dir,
+                    output_dir,
                     target_dir
                     + str(big_pic_counter)
                     + self.name_extension
