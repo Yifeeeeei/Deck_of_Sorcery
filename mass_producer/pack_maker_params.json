@@ -3,17 +3,23 @@
     "@row_num": "一共几行",
     "col_num": 6,
     "@col_num": "一共几列",
+
     "all_cards_dir": "./output",
     "@all_cards_dir": "卡牌的文件夹，dir/类别/属性/卡牌",
+
     "overwrite": true,
+
     "make_all_cards": true,
     "@make_all_cards": "是否生成所有卡牌，在生成所有牌以后快速将所有的牌生成到一张图片上，导入tts",
-    "mixedup_elements": true,
+    "mixedup_elements": false,
     "@mixedup_elements": "是否将所有的元素混合在一起，只保留类别文件夹，如果为false，则会按照元素分别生成卡牌",
     "all_cards_output_dir": "./all_cards_output",
+
     "make_single_deck": true,
     "@make_single_deck": "是否生成单个卡组,如果true，则会按照提供的文件生成单个卡组",
-    "deck_txt_path": "./卡组/earth.txt",
+    "deck_txt_paths": ["./卡组/earth.txt"],
     "@deck_txt_path": "卡组文件的路径，每一行是一张卡牌的路径，如果是相对路径，则是相对于cards_dir的路径，txt每一行为一个卡牌号",
-    "single_deck_output_dir": "./deck"
+    "single_deck_output_dir": "./deck",
+    "use_former_version": false,
+    "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要自动重新加载旧版文件，请将此项设置为true，否则设置为false"
 }

@@ -85,6 +85,16 @@ class PackMaker:
             if not os.path.isdir(os.path.join(source_dir, ele_dir)):
                 continue
             print("processing: ", source_dir, ele_dir)
+
+            if not self.pack_maker_params["mixedup_elements"]:
+                pin_x = 0
+                pin_y = 0
+                counter = 0
+                counter_max = (
+                    self.pack_maker_params["col_num"]
+                    * self.pack_maker_params["row_num"]
+                )
+
             output_dir = (
                 os.path.join(self.pack_maker_params["all_cards_output_dir"], target_dir)
                 if self.pack_maker_params["mixedup_elements"]
@@ -140,6 +150,30 @@ class PackMaker:
                         counter = 0
                         pin_x = 0
                         pin_y = 0
+            if not self.pack_maker_params["mixedup_elements"]:
+                canvas.save(
+                    os.path.join(
+                        output_dir,
+                        target_dir
+                        + str(big_pic_counter)
+                        + self.name_extension
+                        + str(counter)
+                        + "total"
+                        + ".jpg",
+                    )
+                )
+                canvas = PIL.Image.new(
+                    "RGB",
+                    (
+                        self.pack_maker_params["col_num"] * self.card_size[0],
+                        self.pack_maker_params["row_num"] * self.card_size[1],
+                    ),
+                    (255, 255, 255),
+                )
+                big_pic_counter += 1
+                counter = 0
+                pin_x = 0
+                pin_y = 0
         if counter != 0:
             canvas.save(
                 os.path.join(
@@ -255,17 +289,9 @@ class PackMaker:
         else:
             print("DECK VALID")
 
-    def make_single_deck(self):
-        if (
-            os.path.exists(self.pack_maker_params["single_deck_output_dir"])
-            and not self.pack_maker_params["overwrite"]
-        ):
-            print("single_deck_output_dir already exists, skip")
-            return
-        if not os.path.exists(self.pack_maker_params["single_deck_output_dir"]):
-            os.makedirs(self.pack_maker_params["single_deck_output_dir"])
+    def make_one_deck_from_txt_path(self, deck_txt_path: str):
         single_deck_card_nums = []
-        with open(self.pack_maker_params["deck_txt_path"], "r", encoding="utf-8") as f:
+        with open(deck_txt_path, "r", encoding="utf-8") as f:
             for line in f.readlines():
                 card_num = line.strip()
                 if card_num == "":
@@ -279,9 +305,15 @@ class PackMaker:
                 else:
                     print("card not found: ", card_num)
         self.deck_analyze(single_deck_card_nums)
-        deck_name = os.path.basename(self.pack_maker_params["deck_txt_path"]).split(
-            "."
-        )[-2]
+        deck_name = os.path.basename(deck_txt_path).split(".")[-2]
+        if not os.path.exists(
+            os.path.join(self.pack_maker_params["single_deck_output_dir"], deck_name)
+        ):
+            os.makedirs(
+                os.path.join(
+                    self.pack_maker_params["single_deck_output_dir"], deck_name
+                )
+            )
         canvas = PIL.Image.new(
             "RGB",
             (
@@ -304,6 +336,7 @@ class PackMaker:
                     canvas.save(
                         os.path.join(
                             self.pack_maker_params["single_deck_output_dir"],
+                            deck_name,
                             deck_name
                             + str(big_pic_counter)
                             + self.name_extension
@@ -349,6 +382,7 @@ class PackMaker:
                     canvas.save(
                         os.path.join(
                             self.pack_maker_params["single_deck_output_dir"],
+                            deck_name,
                             deck_name
                             + str(big_pic_counter)
                             + self.name_extension
@@ -375,6 +409,7 @@ class PackMaker:
             canvas.save(
                 os.path.join(
                     self.pack_maker_params["single_deck_output_dir"],
+                    deck_name,
                     deck_name
                     + str(big_pic_counter)
                     + self.name_extension
@@ -396,6 +431,19 @@ class PackMaker:
             counter = 0
             pin_x = 0
             pin_y = 0
+
+    def make_single_deck(self):
+        if (
+            os.path.exists(self.pack_maker_params["single_deck_output_dir"])
+            and not self.pack_maker_params["overwrite"]
+        ):
+            print("single_deck_output_dir already exists, skip")
+            return
+        if not os.path.exists(self.pack_maker_params["single_deck_output_dir"]):
+            os.makedirs(self.pack_maker_params["single_deck_output_dir"])
+
+        for dk_path in self.pack_maker_params["deck_txt_paths"]:
+            self.make_one_deck_from_txt_path(dk_path)
 
     def make_pack(self):
         if self.pack_maker_params["make_all_cards"]:
