@@ -10,6 +10,12 @@ from json_version_control import JsonVersionController
 
 class MassProducerXlsx:
     def __init__(self, mass_producer_params_path: str):
+        if mass_producer_params_path is None:
+            print("No mass_producer_params_path specified, be careful!")
+            self.all_elements = ["水", "火", "光", "暗", "气", "地", "?"]
+            self.blur_elements = ["水", "火", "光", "暗", "气", "地", "?", "无", "？"]
+            self.error_log = []
+            return
         json_verson_controller = JsonVersionController(mass_producer_params_path)
 
         self.mass_producer_params = dict(json_verson_controller.get_json())
