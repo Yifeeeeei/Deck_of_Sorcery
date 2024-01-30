@@ -292,18 +292,29 @@ class PackMaker:
     def make_one_deck_from_txt_path(self, deck_txt_path: str):
         single_deck_card_nums = []
         with open(deck_txt_path, "r", encoding="utf-8") as f:
-            for line in f.readlines():
-                card_num = line.strip()
-                if card_num == "":
+            splited = deck_txt_path.split()
+            for word in splited:
+                if word == "":
                     continue
-                if card_num.startswith("#"):
-                    continue
-                elif card_num.startswith("//"):
+                elif word == "//":
                     single_deck_card_nums.append("//")
-                elif card_num in self.all_card_path_dict.keys():
-                    single_deck_card_nums.append(card_num)
+                elif word in self.all_card_path_dict.keys():
+                    single_deck_card_nums.append(word)
                 else:
-                    print("card not found: ", card_num)
+                    print("card not found: ", word)
+
+            # for line in f.readlines():
+            #     card_num = line.strip()
+            #     if card_num == "":
+            #         continue
+            #     if card_num.startswith("#"):
+            #         continue
+            #     elif card_num.startswith("//"):
+            #         single_deck_card_nums.append("//")
+            #     elif card_num in self.all_card_path_dict.keys():
+            #         single_deck_card_nums.append(card_num)
+            #     else:
+            #         print("card not found: ", card_num)
         self.deck_analyze(single_deck_card_nums)
         deck_name = os.path.basename(deck_txt_path).split(".")[-2]
         if not os.path.exists(
