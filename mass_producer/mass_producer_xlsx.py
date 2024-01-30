@@ -31,6 +31,7 @@ class MassProducerXlsx:
         self.all_elements = ["水", "火", "光", "暗", "气", "地", "?"]
         self.blur_elements = ["水", "火", "光", "暗", "气", "地", "?", "无", "？"]
         self.error_log = []
+        self.all_card_infos = []
 
     def make_dir(
         self,
@@ -194,7 +195,9 @@ class MassProducerXlsx:
                         )
                     else:
                         card_maker.config.drawing_path = current_drawing_path
+                    # add it to all_card_infos
                     card_info.type = card_type
+                    self.all_card_infos.append(card_info)
 
                     try:
                         card_image = None
@@ -216,6 +219,38 @@ class MassProducerXlsx:
                             "Error encountered when drawing card: ", card_info.name, e
                         )
                         self.error_log.append(str(card_info) + " " + str(e))
+
+    def convert_elements_to_dict(self, elements):
+        return elements.elements_dict
+
+    def convert_card_info_to_dict(self, card_info):
+        dict = {}
+        dict["number"] = card_info.number
+        dict["type"] = card_info.type  # 生物、技能、道具三选一
+        dict["name"] = card_info.name
+        dict["category"] = card_info.category  # 火水地光暗?
+
+        dict["tag"] = card_info.tag  # 说明，传奇异兽、道具、咒术、法术之类的名词
+        dict["description"] = card_info.description  # 描述
+        dict["quote"] = card_info.quote  # 一段帅气的文字引用
+        dict["elements_cost"] = self.convert_elements_to_dict(
+            card_info.elements_cost
+        )  # 左上角元素消耗
+        dict["elements_gain"] = self.convert_elements_to_dict(
+            card_info.elements_gain
+        )  # 右下角元素负载
+        dict["attack"] = card_info.attack  # 底部攻击力
+
+        dict["life"] = card_info.life  # 生命值
+        dict["version"] = card_info.version  # 版本号
+
+        # 以下是技能卡的独有属性
+        dict["duration"] = card_info.duration  # 冷却回合数
+        dict["power"] = card_info.power  # 威力
+        dict["elements_expense"] = self.convert_elements_to_dict(
+            card_info.elements_expense
+        )  # 代价（为彩笔？）
+        return dict
 
     def produce(self):
         # 检查输出路径
@@ -246,3 +281,11 @@ class MassProducerXlsx:
             os.path.join(self.mass_producer_params["output_path"], "error_log.txt"), "w"
         ) as f:
             f.write("\n".join(self.error_log))
+        # save all_card_infos into json
+        all_card_infos_dicts = []
+        for card_info in self.all_card_infos:
+            all_card_infos_dicts.append(self.convert_card_info_to_dict(card_info))
+
+        # save them into json
+        with open("all_card_infos.json", "w", encoding="utf-8") as f:
+            json.dump(all_card_infos_dicts, f, ensure_ascii=False, indent=4)
