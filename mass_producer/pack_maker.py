@@ -292,7 +292,7 @@ class PackMaker:
     def make_one_deck_from_txt_path(self, deck_txt_path: str):
         single_deck_card_nums = []
         with open(deck_txt_path, "r", encoding="utf-8") as f:
-            splited = deck_txt_path.split()
+            splited = f.read().split()
             for word in splited:
                 if word == "":
                     continue
