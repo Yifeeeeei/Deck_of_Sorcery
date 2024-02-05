@@ -66,6 +66,7 @@ class PackMaker:
             os.makedirs(
                 os.path.join(self.pack_maker_params["all_cards_output_dir"], target_dir)
             )
+        all_card_numbers = []
         canvas = PIL.Image.new(
             "RGB",
             (
@@ -113,6 +114,8 @@ class PackMaker:
                     target_image = PIL.Image.open(
                         os.path.join(source_dir, ele_dir, card_file)
                     ).convert("RGB")
+                    card_number = card_file.split("_")[0]
+                    all_card_numbers.append(card_number)
                     canvas.paste(
                         target_image,
                         (
@@ -199,6 +202,12 @@ class PackMaker:
             counter = 0
             pin_x = 0
             pin_y = 0
+        all_card_numbers_output_path = os.path.join(
+            self.pack_maker_params["all_cards_output_dir"],
+            target_dir,
+            target_dir + ".json",
+        )
+        json.dump(all_card_numbers, open(all_card_numbers_output_path, "w"))
 
     def make_all_cards(self):
         if (
