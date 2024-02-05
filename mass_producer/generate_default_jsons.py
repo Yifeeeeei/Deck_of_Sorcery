@@ -4,22 +4,22 @@ import json
 mass_producer_dict = {
     "生物": {
         "skip": False,
-        "xlsx_paths": ["sheets/全卡表-生物.xlsx"],
+        "xlsx_paths": ["sheets/2.2生物.xlsx"],
         "drawing_paths": ["牌面图片/生物"],
     },
     "技能": {
         "skip": False,
-        "xlsx_paths": ["sheets/全卡表-技能.xlsx"],
+        "xlsx_paths": ["sheets/2.2技能.xlsx"],
         "drawing_paths": ["牌面图片/技能"],
     },
     "道具": {
         "skip": False,
-        "xlsx_paths": ["sheets/全卡表-道具.xlsx"],
+        "xlsx_paths": ["sheets/2.2道具.xlsx"],
         "drawing_paths": ["牌面图片/道具"],
     },
     "英雄": {
         "skip": False,
-        "xlsx_paths": ["sheets/全卡表-英雄.xlsx"],
+        "xlsx_paths": ["sheets/2.2英雄.xlsx"],
         "drawing_paths": ["牌面图片/英雄"],
     },
     "尺寸": 2,
@@ -31,7 +31,10 @@ mass_producer_dict = {
     "output_path": "output",
     "general_path": "resources/general",
     "font_path": "resources/fonts",
+    "use_former_version": False,
+    "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要重拾旧版文件，请将此项设置为True",
 }
+
 
 pack_maker_dict = {
     "row_num": 5,
@@ -43,15 +46,18 @@ pack_maker_dict = {
     "overwrite": True,
     "make_all_cards": True,
     "@make_all_cards": "是否生成所有卡牌，在生成所有牌以后快速将所有的牌生成到一张图片上，导入tts",
-    "mixedup_elements": True,
-    "@mixedup_elements": "是否将所有的元素混合在一起，只保留类别文件夹，如果为false，则会按照元素分别生成卡牌",
+    "mixedup_elements": False,
+    "@mixedup_elements": "是否将所有的元素混合在一起，只保留类别文件夹，如果为False，则会按照元素分别生成卡牌",
     "all_cards_output_dir": "./all_cards_output",
     "make_single_deck": True,
-    "@make_single_deck": "是否生成单个卡组,如果true，则会按照提供的文件生成单个卡组",
-    "deck_txt_path": "./卡组/earth.txt",
+    "@make_single_deck": "是否生成单个卡组,如果True，则会按照提供的文件生成单个卡组",
+    "deck_txt_paths": ["./卡组/earth.txt"],
     "@deck_txt_path": "卡组文件的路径，每一行是一张卡牌的路径，如果是相对路径，则是相对于cards_dir的路径，txt每一行为一个卡牌号",
     "single_deck_output_dir": "./deck",
+    "use_former_version": False,
+    "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要自动重新加载旧版文件，请将此项设置为True，否则设置为False",
 }
+
 single_card_maker_dict = {
     "编号": "100001",
     "名称": "大法师 伦德萨尔",
