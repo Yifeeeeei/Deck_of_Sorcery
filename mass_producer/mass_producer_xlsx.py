@@ -40,6 +40,9 @@ class MassProducerXlsx:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
+    def get_version(self, card_info):
+        return str(card_info.number)[3]
+
     def blur_to_accurate(self, ele):
         if ele == "无":
             return "?"
@@ -92,7 +95,9 @@ class MassProducerXlsx:
     def get_card_info_from_row(self, df_row):
         card_info = CardInfo()
         if "编号" in df_row.keys():
-            card_info.number = "" if pd.isnull(df_row["编号"]) else str(int(df_row["编号"]))
+            card_info.number = (
+                "" if pd.isnull(df_row["编号"]) else str(int(df_row["编号"]))
+            )
         if "属性" in df_row.keys():
             card_info.category = (
                 ""
@@ -122,13 +127,17 @@ class MassProducerXlsx:
                 else self.element_analysis(df_row["负载"])
             )
         if "效果" in df_row.keys():
-            card_info.description = "" if pd.isnull(df_row["效果"]) else str(df_row["效果"])
+            card_info.description = (
+                "" if pd.isnull(df_row["效果"]) else str(df_row["效果"])
+            )
         if "引言" in df_row.keys():
             card_info.quote = "" if pd.isnull(df_row["引言"]) else str(df_row["引言"])
         if "威力" in df_row.keys():
             card_info.power = int(-1 if pd.isnull(df_row["威力"]) else df_row["威力"])
         if "时间" in df_row.keys():
-            card_info.duration = int(-1 if pd.isnull(df_row["时间"]) else df_row["时间"])
+            card_info.duration = int(
+                -1 if pd.isnull(df_row["时间"]) else df_row["时间"]
+            )
         if "代价" in df_row.keys():
             card_info.elements_expense = (
                 Elements({})
@@ -197,6 +206,15 @@ class MassProducerXlsx:
                         card_maker.config.drawing_path = current_drawing_path
                     # add it to all_card_infos
                     card_info.type = card_type
+
+                    # check version
+                    if self.mass_producer_params["produce_certain_versions_only"]:
+                        if (
+                            self.get_version(card_info)
+                            not in self.mass_producer_params["certain_versions"]
+                        ):
+                            continue
+
                     self.all_card_infos.append(card_info)
 
                     try:
@@ -287,5 +305,6 @@ class MassProducerXlsx:
             all_card_infos_dicts.append(self.convert_card_info_to_dict(card_info))
 
         # save them into json
-        with open("all_card_infos.json", "w", encoding="utf-8") as f:
-            json.dump(all_card_infos_dicts, f, ensure_ascii=False, indent=4)
+        if self.mass_producer_params["produce_all_card_infos_json"]:
+            with open("all_card_infos.json", "w", encoding="utf-8") as f:
+                json.dump(all_card_infos_dicts, f, ensure_ascii=False, indent=4)

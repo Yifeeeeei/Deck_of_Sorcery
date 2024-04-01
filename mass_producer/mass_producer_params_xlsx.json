@@ -28,6 +28,12 @@
     "output_path": "output",
     "general_path": "resources/general",
     "font_path": "resources/fonts",
+    "produce_all_card_infos_json": true,
+    "@produce_all_card_infos_json": "是否生成所有卡牌信息用于组卡器，如果为false，则只生成卡牌图片",
+    "produce_certain_versions_only": false,
+    "@produce_certain_versions_only": "是否只生成某个版本的卡牌，如果为true，则只生成certain_versions包含的的卡牌",
+    "certain_versions": ["1", "2", "3"],
+    "@certain_versions": "需要生成的版本号列表，需要字符串格式",
     "use_former_version": false,
     "@use_former_version": "在git pull之后，本文件会被覆盖，如果需要重拾旧版文件，请将此项设置为true"
 }
