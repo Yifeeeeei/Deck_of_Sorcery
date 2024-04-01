@@ -247,7 +247,7 @@ function setUpDeckBuilderInput()
         input_function = "input_func",
         interactable = true,
         readOnly = false,
-        label = "Input deck code here",
+        label = "Input deck code here. Click the magic fountain to build the deck.",
         font_size = 50
     })
 
