@@ -140,7 +140,11 @@ class CardMaker:
             return out
 
     def is_legend(self, card_info: CardInfo):
-        if "传说" in card_info.tag or "传奇" in card_info.tag or card_info.type == "英雄":
+        if (
+            "传说" in card_info.tag
+            or "传奇" in card_info.tag
+            or card_info.type == "英雄"
+        ):
             return True
         return False
 
@@ -1021,6 +1025,8 @@ class CardMaker:
         base_image = self.draw_category_and_name(card_info, base_image)
         # 准备费用
         base_image = self.draw_cost(card_info, base_image)
+        # 准备代价
+        base_image = self.draw_expense(card_info, base_image)
         # 准备标签
         base_image = self.draw_tag(card_info, base_image)
         # 准备卡牌描述和引言
