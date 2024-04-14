@@ -67,10 +67,144 @@ function onLoad()
     print("setUpDeckBuilderInput")
 
     fetchJsonData(jsonUrl)
+    setUpCollectionTiles()
     setUpDeckBuilder()
     setUpGameRule()
-
     setUpTexts()
+end
+
+function createTileButtonAtPostion(position, tileFrontImageUrl, tileBackImageUrl, buttonHint, onClickFunctionName)
+    local tile = spawnObject({
+        type = "Custom_Tile",
+        position = position,
+        scale = {2.4, 2.4, 2.4},
+        rotation = {0, 0, 0},
+        callback_function = function(obj)
+            obj.setLock(true)
+        end
+    })
+
+    tile.setCustomObject({
+        image = tileFrontImageUrl,
+        image_bottom = tileBackImageUrl,
+        thickness = 0.1, -- You can adjust the thickness of the board
+        stackable = false
+    })
+
+    tile.createButton({
+        click_function = onClickFunctionName,
+        function_owner = self,
+        label = buttonHint,
+        position = {0, 0.1, 0},
+        rotation = {0, 0, 0},
+        tooltip = buttonHint,
+        width = 600,
+        height = 1200,
+        font_size = 40,
+        color = {0, 0, 0, 0},
+        hover_color = {1, 1, 1, 0.2}
+    })
+
+    return tile
+end
+
+function setUpCollectionTiles()
+    local heroTile = createTileButtonAtPostion({
+        x = hero_deck_position.x + 6,
+        y = hero_deck_position.y - 1,
+        z = hero_deck_position.z
+    }, resource_url .. "tts/hero.jpg", resource_url .. "card_back/crad_back2.png", "英雄", "onClickHeroTile")
+    local unitTile = createTileButtonAtPostion({
+        x = unit_deck_position.x + 6,
+        y = unit_deck_position.y - 1,
+        z = unit_deck_position.z
+    }, resource_url .. "tts/unit.jpg", resource_url .. "card_back/crad_back2.png", "生物", "onClickUnitTile")
+    local itemTile = createTileButtonAtPostion({
+        x = item_deck_position.x + 6,
+        y = item_deck_position.y - 1,
+        z = item_deck_position.z
+    }, resource_url .. "tts/item.jpg", resource_url .. "card_back/crad_back2.png", "道具", "onClickItemTile")
+    local abilityTile = createTileButtonAtPostion({
+        x = ability_deck_position.x + 6,
+        y = ability_deck_position.y - 1,
+        z = ability_deck_position.z
+    }, resource_url .. "tts/ability.jpg", resource_url .. "card_back/crad_back2.png", "技能", "onClickAbilityTile")
+    local spawnTile = createTileButtonAtPostion({
+        x = spawn_deck_position.x + 6,
+        y = spawn_deck_position.y - 1,
+        z = spawn_deck_position.z
+    }, resource_url .. "tts/spawn.jpg", resource_url .. "card_back/crad_back2.png", "衍生", "onClickSpawnTile")
+
+end
+
+function onClickHeroTile()
+    print("onClickHeroTile")
+    local hero_card_ids = {}
+    for k, v in pairs(card_table) do
+        if isHero(k) then
+            table.insert(hero_card_ids, k)
+        end
+    end
+    if DEBUGGING then
+        hero_card_ids = {hero_card_ids[1]}
+    end
+    setUpDeck(hero_card_ids, hero_deck_position)
+end
+
+function onClickUnitTile()
+    print("onClickUnitTile")
+    local unit_card_ids = {}
+    for k, v in pairs(card_table) do
+        if isUnit(k) then
+            table.insert(unit_card_ids, k)
+        end
+    end
+    if DEBUGGING then
+        unit_card_ids = {unit_card_ids[1]}
+    end
+    setUpDeck(unit_card_ids, unit_deck_position)
+end
+
+function onClickItemTile()
+    print("onClickItemTile")
+    local item_card_ids = {}
+    for k, v in pairs(card_table) do
+        if isItem(k) then
+            table.insert(item_card_ids, k)
+        end
+    end
+    if DEBUGGING then
+        item_card_ids = {item_card_ids[1]}
+    end
+    setUpDeck(item_card_ids, item_deck_position)
+end
+
+function onClickAbilityTile()
+    print("onClickAbilityTile")
+    local ability_card_ids = {}
+    for k, v in pairs(card_table) do
+        if isAbility(k) then
+            table.insert(ability_card_ids, k)
+        end
+    end
+    if DEBUGGING then
+        ability_card_ids = {ability_card_ids[1]}
+    end
+    setUpDeck(ability_card_ids, ability_deck_position)
+end
+
+function onClickSpawnTile()
+    print("onClickSpawnTile")
+    local spawn_card_ids = {}
+    for k, v in pairs(card_table) do
+        if isSpawned(k) then
+            table.insert(spawn_card_ids, k)
+        end
+    end
+    if DEBUGGING then
+        spawn_card_ids = {spawn_card_ids[1]}
+    end
+    setUpDeck(spawn_card_ids, spawn_deck_position)
 end
 
 function setUpTexts()
@@ -204,8 +338,9 @@ end
 -- this function is called after fetching the json data
 
 function fetchJsonDataCallback()
-    print("entering fetchJsonDataCallback")
-    setUpAllDecks()
+    -- print("entering fetchJsonDataCallback")
+    -- setUpAllDecks()
+    print("finish fetchJsonDataCallback")
 
 end
 
@@ -279,13 +414,13 @@ function setUpDeckBuilderButton()
     -- custom_board.setLock(true)
 
     custom_board.setCustomObject({
-        image = resource_url .. "card_back/fountain.jpg",
+        image = resource_url .. "tts/fountain.jpg",
         thickness = 0.1, -- You can adjust the thickness of the board
         merge_distance = 1 -- The distance at which the board will merge with other objects
     })
 
     custom_board.createButton({
-        click_function = 'onClick',
+        click_function = 'onClickDeckBuilderButton',
         function_owner = self,
         label = 'click me to set deck',
         position = {
@@ -304,8 +439,8 @@ function setUpDeckBuilderButton()
 
 end
 
-function onClick()
-    print("onClick")
+function onClickDeckBuilderButton()
+    print("onClickDeckBuilderButton")
     buildDeckByDeckCode(input_str)
 end
 
