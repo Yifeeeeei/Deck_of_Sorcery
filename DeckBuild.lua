@@ -513,6 +513,7 @@ function setUpDeck(card_ids, position)
 
 end
 
+-- this function has been deprecated
 function setUpAllDecks()
     print("setUpAllDecks")
     local hero_card_ids = {}
