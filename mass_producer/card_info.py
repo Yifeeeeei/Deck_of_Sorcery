@@ -59,6 +59,9 @@ class CardInfo:
         self.power = -1  # 威力
         self.elements_expense = Elements({})  # 代价（为彩笔？）
 
+        # 衍生物列表
+        self.spawns = []
+
         # 以下是道具卡的独有属性
 
     def __str__(self):
@@ -77,4 +80,5 @@ class CardInfo:
         s += "持续 " + str(self.duration) + "\n"
         s += "威力 " + str(self.power) + "\n"
         s += "代价 " + str(self.elements_expense) + "\n"
+        s += "衍生 " + str(self.spawns) + "\n"
         return s
