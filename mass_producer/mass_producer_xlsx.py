@@ -148,11 +148,11 @@ class MassProducerXlsx:
             card_info.attack = int(-1 if pd.isnull(df_row["攻击"]) else df_row["攻击"])
         if "版本" in df_row.keys():
             card_info.version = "" if pd.isnull(df_row["版本"]) else str(df_row["版本"])
-        if "衍生物" in df_row.keys():
-            if pd.isnull(df_row["衍生物"]):
+        if "衍生" in df_row.keys():
+            if pd.isnull(df_row["衍生"]):
                 card_info.spawns = []
             else:
-                card_info.spawns = str(df_row["衍生物"]).split()
+                card_info.spawns = str(df_row["衍生"]).split()
         if card_info.number == "" or card_info.name == "" or card_info.category == "":
             # 空行
             return None
