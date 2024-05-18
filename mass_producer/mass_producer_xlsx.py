@@ -153,6 +153,8 @@ class MassProducerXlsx:
                 card_info.spawns = []
             else:
                 card_info.spawns = str(df_row["衍生"]).split()
+                for i in range(len(card_info.spawns)):
+                    card_info.spawns[i] = str(int(float(card_info.spawns[i].strip())))
         if card_info.number == "" or card_info.name == "" or card_info.category == "":
             # 空行
             return None
