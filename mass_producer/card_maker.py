@@ -56,7 +56,7 @@ class CardMaker:
         return image
 
     def get_image_without_extension(self, image_name):
-        extension_list = [".png", ".jpg", ".jpeg", ".jfif"]
+        extension_list = [".png", ".jpg", ".webp", ".jpeg", ".jfif"]
         for ext in extension_list:
             if os.path.exists(image_name + ext):
                 return PIL.Image.open(image_name + ext).convert("RGBA")
